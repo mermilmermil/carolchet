@@ -39,6 +39,7 @@ function addSection(li, e) {
   eProject.sections.push({
     name: nameInput.value,
     row: sortSection(rowInfoInput.value),
+    round: 34,
     index: 0,
     showSection: true,
   })
@@ -61,8 +62,11 @@ function updateSections(li, i) {
       <li class="list-group-item">
           
           <h5 class="card-title">${e.name}</h5>
-            <button class="btn btn-danger col-0.5" onclick="deleteSection(${li}, ${i})"><i class="fa-solid fa-trash"></i></button>
-            <button class="btn btn-success col-0.5" style="display: ${!e.showSection? "flexbox": "none"}" onclick='collSection(${li}, ${i})'><i class="fa-solid fa-plus"></i></button>
+          <div class="row m-0">
+            <button class="btn btn-danger col-1" onclick="deleteSection(${li}, ${i})"><i class="fa-solid fa-trash"></i></button>
+            <input type="number" class="row-counter col-1" id="count-${li}-${i}" value='${e.round}' data-li='${li}' data-index='${i}'>
+            <button class="btn btn-success col-1" style="display: ${!e.showSection? "flexbox": "none"}" onclick='collSection(${li}, ${i})'><i class="fa-solid fa-plus"></i></button>
+            </div>
           <ul class="list-group list-group-flush">
           <li class="list-group-item" style="display: ${e.showSection? "block": "none"}">
             <span id="span-${li}-${i}">${e.row.length > 1? e.row[e.index] : e.row}</span> <br>
@@ -76,6 +80,8 @@ function updateSections(li, i) {
     `
   }).join('')
   
+
+
 }
 
 function updateProjects () {
@@ -112,6 +118,16 @@ function updateProjects () {
     const form = document.getElementById(`row-form-${i}`)
     form.addEventListener('submit', (e) => addSection(i, e)) // Attach submit event to each form
   })  
+
+  document.querySelectorAll('.row-counter').forEach(input => {
+    input.addEventListener('input', (e) => {
+      const li = parseInt(e.target.dataset.li);
+      const index = parseInt(e.target.dataset.index);
+      const newValue = parseInt(e.target.value) || 0;
+      allProjects[li].sections[index].round = newValue;
+      localStorage.setItem('items', JSON.stringify(allProjects));
+    });
+  });
 
   localStorage.setItem('items', JSON.stringify(allProjects));
 }
