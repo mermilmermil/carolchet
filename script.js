@@ -2,16 +2,6 @@ const nameSectionForm = document.getElementById("text-name-form")
 const nameSectionInput = document.getElementById("text-name-input")
 const cardDiv = document.getElementById("all-projects")
 let allProjects = JSON.parse(localStorage.getItem('items')) || [
-  {name: "Test",
-    showform: true,
-    sections: [
-      {
-        name: "Test Section",
-        row: ["something", "else", "whatever"],
-        index: 0,
-        showSection: true,
-      }
-    ],}
 ];
 
 function deleteProject (li) {
@@ -39,7 +29,7 @@ function addSection(li, e) {
   eProject.sections.push({
     name: nameInput.value,
     row: sortSection(rowInfoInput.value),
-    round: 34,
+    round: 0,
     index: 0,
     showSection: true,
   })
